@@ -1,0 +1,78 @@
+Battle Room Server
+
+Pair up connections to this server and play battleships. The protocol for
+interacting with the server is lines of text separated by carriage returns.
+Any line starting with a space (to or from the server) is ignored.
+
+Lines are space-separated words.  Generic responses from the server are:
+- "ok ..." which is the word ok, followed by some descriptive text.
+- "error ..." which is the word error, followed by some descriptive text.
+
+Each command (described below) can have its own additional responses.
+
+The battleships board is a 10x10 board, that can be addressed using two
+character strings of the form xn, where x is a character from "a"-"j", and
+n is a digit 0-9.  For example, a0, c9, j2.
+
+The ships in battleships are as follows:
+- aircraftcarrier: 5 long
+- battleship:      4 long
+- submarine:       3 long
+- cruiser:         3 long
+- destroyer:       2 long
+
+When sending ship names to the server, only the first character is used and
+the remainder of the ship name is ignored.
+
+Finally, when it is time for your FIRST move, the server will send "go".
+After that, the expectation is that users will take turns shooting.
+
+autodump
+
+    Automatically dump the board after each move.  This is
+    intended for interactive use
+
+    for example "autodump"
+
+dump
+
+    Display the current board, both your board and your view of the
+    opponent's board.  Each line begins with a space, and thus should
+    be ignored by any client software
+
+id
+
+    Provide and ID used to record results
+    - id [id]
+
+    for example "id Mickey Mouse"
+
+place
+
+    Place a ship on the board.  the syntax is:
+    - place [ship] [location] [horizontal/vertical]
+
+    for example "place battleship a2 horizontal"
+    (this can be shortened to "place b a2 h")
+
+    On success, this command returns "ok".
+
+    The server will not accept moves until all ships have
+    been successfully placed.  Once all ships have been placed,
+    by both players, the server will additionally return "go"
+    to the player whose turn it is.
+
+shoot
+
+    Shoot at a square.
+    - id [location]
+
+    for example "shoot a1"
+
+    This will return one of:
+    - hit
+    - miss
+    - sunk
+    - won
+
+

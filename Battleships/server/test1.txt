@@ -1,0 +1,8 @@
+id Fred
+place a b1 h
+place b b3 h
+place s b5 h
+place c b7 h
+place d b9 h
+dump
+autodump
